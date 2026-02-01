@@ -1,17 +1,781 @@
 ---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+// SimpleIcons via jsDelivr (reliable); Java = openjdk, AWS = amazonwebservices
+const iconUrl = (slug) => `https://cdn.jsdelivr.net/npm/simple-icons@11/icons/${slug}.svg`;
+
+const skillsProgrammingLanguages = [
+  { name: "Python", icon: "python" },
+  { name: "Java", icon: "openjdk" },
+  { name: "JavaScript", icon: "javascript" },
+  { name: "C", icon: "c" },
+  { name: "SQL", icon: "mysql" },
+  { name: "NoSQL", icon: "mongodb" },
+];
+
+const skillsFrameworks = [
+  { name: "React.js", icon: "react" },
+  { name: "Express.js", icon: "express" },
+  { name: "Node.js", icon: "nodedotjs" },
+  { name: "Spring Boot", icon: "springboot" },
+  { name: "Firebase", icon: "firebase" },
+];
+
+const skillsDatabaseTools = [
+  { name: "AWS", icon: "amazonwebservices" },
+  { name: "MySQL", icon: "mysql" },
+  { name: "MongoDB", icon: "mongodb" },
+  { name: "Git", icon: "git" },
+  { name: "Docker", icon: "docker" },
+  { name: "CI/CD", icon: "githubactions" },
+];
+
+const skillsMachineLearning = [
+  { name: "PyTorch", icon: "pytorch" },
+  { name: "scikit-learn", icon: "scikitlearn" },
+  { name: "Pandas", icon: "pandas" },
+  { name: "NumPy", icon: "numpy" },
+  { name: "Matplotlib", icon: "python" },
+];
+
+const projects = [
+  {
+    title: "MasterPrice",
+    desc: "A full-stack grocery price comparison mobile app with 20+ screens, supporting barcode-based product lookup, location-based price comparison, and personalized shopping lists.",
+    link: "/projects/mobile-app",
+    tags: ["JavasCript", "React Native", "Firebase"],
+    video: "/assets/mobile-demo.mp4",
+    poster: "/assets/mobile-thumb.png",
+    github: "https://github.com/master-price-app/masterprice",
+  },
+  {
+    title: "Dream Diary",
+    desc: "A full-stack community journaling web app with complete CRUD API and authentication management, where users create, manage, and share private or public dream entries with social likes.",
+    link: "/projects/dreamdiary",
+    tags: ["JavaScript", "Node.js", "Express.js"],
+    video: "/assets/dreamdiary.mp4",      // ✅ use your asset
+    poster: "/assets/dreamdiary-thumb.png",
+    github: "https://github.com/annanfu/dream-diary-app",
+  },
+  {
+    title: "Cloud-based Distributed Album Store System",
+    desc: "A distributed album store on AWS EC2/ALB with microservices and RESTful APIs, async review processing via SQS/SNS, RDS and DynamoDB, and Lambda/S3 image pipeline.",
+    link: "/projects/distributed-system",
+    tags: ["AWS", "Java"],
+    image: "/assets/distributed-thumb.png",
+    fit: "contain",
+    github: "https://github.com/CS6650-Distributed-Systems/album-store-plus",
+  },
+];
+
+const research = [
+  {
+    title: "Self-Supervised Learning for Android Malware Detection on a Time-Stamped Dataset",
+    meta: "1st Author · paper accepted at IEEE ICC 2026",
+    desc: [
+      "End-to-end ML pipeline using Python on 40K Android apps.",
+      "Pioneered self-supervised learning (BYOL) to enhance feature representations from unlabeled data.",
+      "F1 and Recall raised to 89% under 9:1 class imbalance via feature engineering and time-based cross-validation.",
+      "Designed API call-based timestamp verification algorithms.",
+    ],
+    link: "/projects/research-1",
+    image: "/assets/research1-thumb.png",
+    github: "https://github.com/maryam-tanha/Self-supervised-Learning-for-Android-Malware-Detection",
+    tags: ["Python", "Pytorch", "scikit-learn"],
+  },
+];
+
+// small inline github svg (no deps) — larger for project cards
+const GITHUB_SVG = `
+<svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+  <path fill="currentColor" d="M12 .5C5.73.5.75 5.48.75 11.75c0 4.9 3.18 9.05 7.6 10.52.56.1.77-.24.77-.54v-1.9c-3.09.68-3.74-1.32-3.74-1.32-.5-1.3-1.23-1.65-1.23-1.65-1-.7.08-.69.08-.69 1.1.08 1.68 1.13 1.68 1.13.99 1.69 2.6 1.2 3.23.92.1-.72.39-1.2.7-1.48-2.47-.28-5.07-1.23-5.07-5.5 0-1.22.43-2.22 1.13-3-.12-.28-.49-1.42.11-2.95 0 0 .93-.3 3.05 1.15.88-.25 1.82-.37 2.76-.38.94.01 1.88.13 2.76.38 2.12-1.45 3.05-1.15 3.05-1.15.6 1.53.23 2.67.11 2.95.7.78 1.13 1.78 1.13 3 0 4.28-2.6 5.22-5.08 5.49.4.35.75 1.03.75 2.08v3.08c0 .3.2.65.78.54 4.42-1.47 7.6-5.62 7.6-10.52C23.25 5.48 18.27.5 12 .5Z"/>
+</svg>`;
 
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout title="Annan Fu – Portfolio">
+  <!-- HERO (role, tagline, experience — professional & chic) -->
+  <section id="about" class="hero">
+    <div class="heroLeft">
+
+
+      <h1 class="heroTitle heroEntrance">
+        <span class="heroGreeting">Hi, I'm </span><span id="typingName" class="heroName"></span><span id="cursor">|</span>
+      </h1>
+
+      <p class="heroRole heroEntrance"><span id="typingRole"></span><span id="roleCursor">|</span></p>
+
+      <p class="heroTagline heroEntrance">
+        I work with data, design workflows, implement solutions in code, and deliver results.
+      </p>
+
+      <p class="heroExperience heroEntrance">
+        Experience spanning cloud-based distributed systems, full-stack web and mobile applications, and end-to-end machine learning pipelines in cybersecurity research.
+      </p>
+    </div>
+
+    <div class="heroRight">
+      <img class="avatar heroAvatarEntrance" src="/assets/photo.jpg" alt="Annan Fu photo" />
+    </div>
+  </section>
+
+  <!-- SKILLS (simple, no card, text-only chips, natural width) -->
+  <h2 class="sectionTitle sectionTitleNoTop" id="skills">Skills</h2>
+
+
+  <section class="reveal skillsSection" data-reveal>
+  <div class="skillsWrap">
+    <div class="skillsColGroup">
+      <div class="skillsCol">
+        <div class="skillsHead">Programming Languages</div>
+        <div class="skillsRow">
+          {skillsProgrammingLanguages.map((s) => (
+            <span class="skillChip skillChipText">{s.name}</span>
+          ))}
+        </div>
+      </div>
+      <div class="skillsCol">
+        <div class="skillsHead">Frameworks</div>
+        <div class="skillsRow">
+          {skillsFrameworks.map((s) => (
+            <span class="skillChip skillChipText">{s.name}</span>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <div class="skillsDivider" aria-hidden="true"></div>
+
+    <div class="skillsColGroup">
+      <div class="skillsCol">
+        <div class="skillsHead">Database & Tools</div>
+        <div class="skillsRow">
+          {skillsDatabaseTools.map((s) => (
+            <span class="skillChip skillChipText">{s.name}</span>
+          ))}
+        </div>
+      </div>
+      <div class="skillsCol">
+        <div class="skillsHead">Machine Learning</div>
+        <div class="skillsRow">
+          {skillsMachineLearning.map((s) => (
+            <span class="skillChip skillChipText">{s.name}</span>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <h2 class="sectionTitle" id="projects">Selected Projects</h2>
+  <p class="sub">Selected personal projects. <a href="https://github.com/annanfu/" target="_blank" rel="noreferrer" class="subLink">More projects on GitHub <span class="subLinkIcon" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span></a></p>
+
+<section class="grid3">
+  {projects.map((p) => (
+    <article class="card lift reveal pCard" style="display:block; padding: 14px;">
+      {/* Whole card is clickable; no nested <a> */}
+      <a class="stretched" href={p.link} aria-label={p.title}></a>
+
+      <div class="pTop">
+        <div class="pTitle">{p.title}</div>
+
+        <a class="gh" href={p.github} target="_blank" rel="noreferrer" aria-label="GitHub (placeholder)">
+          <span set:html={GITHUB_SVG} />
+        </a>
+      </div>
+
+      {p.video ? (
+        <div class="media">
+          <video
+            src={p.video}
+            poster={p.poster}
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+          />
+        </div>
+      ) : (
+        <div class={"media " + (p.fit === "contain" ? "contain" : "")}>
+          <img src={p.image} alt={p.title + " thumbnail"} loading="lazy" />
+        </div>
+      )}
+
+      <p class="pDesc">{p.desc}</p>
+
+      <div class="pillRow" style="margin-top: 12px;">
+        {p.tags.map(t => <span class="pill">{t}</span>)}
+      </div>
+    </article>
+  ))}
+</section>
+
+
+  <!-- RESEARCH -->
+  <h2 class="sectionTitle" id="research">Research</h2>
+  <p class="sub">Open-source projects.</p>
+
+<section style="display:grid; gap: 16px;">
+  {research.map((r) => (
+    <article class="card lift reveal rCard" style="display:block; padding: 14px;">
+      <a class="stretched" href={r.link} aria-label={r.title}></a>
+
+      <div class="rRow">
+        <div class="media contain rMedia">
+          <img src={r.image} alt={r.title + " diagram"} loading="lazy" />
+        </div>
+
+        <div class="rBody">
+          <div class="rTop">
+            <div class="rTitle">{r.title}</div>
+            <a class="gh" href={r.github} target="_blank" rel="noreferrer" aria-label={`GitHub: ${r.title}`}>
+              <span set:html={GITHUB_SVG} />
+            </a>
+          </div>
+
+          <div class="rMeta">{r.meta}</div>
+          <ul class="rDescList">
+            {r.desc.map((d) => (
+              <li>{d}</li>
+            ))}
+          </ul>
+
+          {r.githubNote && <p class="rGitHubNote">{r.githubNote}</p>}
+          <div class="pillRow" style="margin-top: 12px;">
+            {r.tags.map(t => <span class="pill">{t}</span>)}
+          </div>
+        </div>
+      </div>
+    </article>
+  ))}
+</section>
+
+
+  <!-- CONNECT (aligned, no wrap on detail, white-to-black hover) -->
+  <h2 class="sectionTitle" id="connect">Connect</h2>
+
+
+  <div class="reveal connectGrid">
+    <button type="button" class="connectItem connectItemButton" id="emailCopyBtn" aria-label="Copy email">
+      <span class="connectIcon"><img src={iconUrl("gmail")} alt="" width="20" height="20" /></span>
+      <span class="connectText">
+        <span class="connectLabel">Email</span>
+        <span class="connectDetail" id="emailCopyDetail">annanfu.van@gmail.com</span>
+      </span>
+    </button>
+    <a class="connectItem" href="https://github.com/annanfu/" target="_blank" rel="noreferrer" aria-label="GitHub">
+      <span class="connectIcon"><img src={iconUrl("github")} alt="" width="20" height="20" /></span>
+      <span class="connectText">
+        <span class="connectLabel">GitHub</span>
+        <span class="connectDetail">github.com/annanfu</span>
+      </span>
+    </a>
+    <a class="connectItem" href="https://linkedin.com/in/annan-fu/" target="_blank" rel="noreferrer" aria-label="LinkedIn">
+      <span class="connectIcon"><img src={iconUrl("linkedin")} alt="" width="20" height="20" /></span>
+      <span class="connectText">
+        <span class="connectLabel">LinkedIn</span>
+        <span class="connectDetail">in/annan-fu</span>
+      </span>
+    </a>
+  </div>
+
+  <!-- copy email -->
+  <script is:inline>
+    document.addEventListener('DOMContentLoaded', () => {
+      const email = "annanfu.van@gmail.com";
+      const btn = document.getElementById('emailCopyBtn');
+      const detail = document.getElementById('emailCopyDetail');
+      if (btn && detail) {
+        btn.addEventListener('click', async () => {
+          try {
+            await navigator.clipboard.writeText(email);
+            const t = detail.textContent;
+            detail.textContent = "Copied!";
+            setTimeout(() => { detail.textContent = t; }, 1500);
+          } catch (e) {
+            detail.textContent = "Copy failed";
+            setTimeout(() => { detail.textContent = email; }, 1500);
+          }
+        });
+      }
+    });
+  </script>
+  <!-- typing: name + role loop -->
+  <script is:inline>
+    document.addEventListener('DOMContentLoaded', () => {
+      const name = "Annan Fu";
+      const nameEl = document.getElementById('typingName');
+      const cursor = document.getElementById('cursor');
+      let i = 0;
+      const tick = () => {
+        if (!nameEl) return;
+        nameEl.textContent = name.slice(0, i);
+        i++;
+        if (i > name.length) {
+          if (cursor) cursor.style.display = "none";
+          return;
+        }
+        setTimeout(tick, 65);
+      };
+      tick();
+      if (cursor) {
+        const blink = setInterval(() => {
+          if (cursor.style.display === "none") { clearInterval(blink); return; }
+          cursor.style.opacity = cursor.style.opacity === "0" ? "1" : "0";
+        }, 420);
+      }
+
+      const rolePhrases = ["Software Engineer", "Data-driven Problem Solver"];
+      const roleEl = document.getElementById('typingRole');
+      const roleCursor = document.getElementById('roleCursor');
+      let phraseIndex = 0;
+      let charIndex = 0;
+      let isDeleting = false;
+      const typeSpeed = 70;
+      const deleteSpeed = 45;
+      const pauseAfterType = 2200;
+      const pauseAfterDelete = 600;
+
+      function roleTick() {
+        if (!roleEl) return;
+        const phrase = rolePhrases[phraseIndex];
+        if (isDeleting) {
+          roleEl.textContent = phrase.slice(0, charIndex - 1);
+          charIndex--;
+          const next = charIndex <= 0
+            ? (phraseIndex = (phraseIndex + 1) % rolePhrases.length, isDeleting = false, setTimeout(roleTick, pauseAfterDelete))
+            : setTimeout(roleTick, deleteSpeed);
+        } else {
+          roleEl.textContent = phrase.slice(0, charIndex + 1);
+          charIndex++;
+          if (charIndex >= phrase.length) {
+            isDeleting = true;
+            setTimeout(roleTick, pauseAfterType);
+          } else {
+            setTimeout(roleTick, typeSpeed);
+          }
+        }
+      }
+      setTimeout(roleTick, 800);
+
+      if (roleCursor) {
+        setInterval(() => {
+          roleCursor.style.opacity = roleCursor.style.opacity === "0" ? "1" : "0";
+        }, 520);
+      }
+    });
+  </script>
+
+  <style>
+    /* HERO layout */
+    .hero{
+      min-height: calc(100vh - 92px);
+      display:grid;
+      grid-template-columns: 1fr 260px;
+      gap: 28px;
+      align-items:center;
+    }
+    @media (max-width: 980px){
+      .hero{ grid-template-columns: 1fr; }
+      .heroRight{ justify-content:flex-start; }
+      .avatar{ width: 220px; height: 280px; }
+    }
+    .kicker{
+      font-size: 13px;
+      font-weight: 950;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: rgba(10,10,10,0.55);
+      margin-bottom: 10px;
+    }
+    .heroTitle{
+      margin: 0;
+      font-size: clamp(3.6rem, 7vw, 5.2rem);
+      letter-spacing: -0.07em;
+      line-height: 0.95;
+      font-weight: 1100;
+    }
+    .heroGreeting{
+      font-size: 0.42em;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      color: rgba(10,10,10,0.65);
+    }
+    .heroName{ }
+    #cursor, #roleCursor{ display:inline-block; width: 0.08em; }
+    .heroRole{
+      margin: 10px 0 0;
+      font-size: clamp(1.51rem, 2.94vw, 2.18rem);
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      color: #0a0a0a;
+      min-height: 1.4em;
+    }
+    .heroTagline{
+      margin: 20px 0 0;
+      max-width: 64ch;
+      font-size: 1.08rem;
+      font-weight: 450;
+      line-height: 1.65;
+      color: rgba(10,10,10,0.78);
+    }
+    .heroExperience{
+      margin: 20px 0 0;
+      padding-top: 18px;
+      border-top: 1px solid rgba(10,10,10,0.08);
+      max-width: 64ch;
+      font-size: 0.9rem;
+      font-weight: 300;
+      line-height: 1.6;
+      color: rgba(10,10,10,0.55);
+    }
+
+    .heroRight{
+      display:flex;
+      justify-content:flex-end;
+      align-items:center;
+    }
+    .avatar{
+      width: 240px;
+      height: 300px;
+      border-radius: 22px;
+      object-fit: cover;
+      object-position: 50% 18%;
+      box-shadow: var(--shadow);
+      background:#fff;
+      display:block;
+    }
+
+    /* Hero entrance: staggered slide-up + fade (page load) */
+    @keyframes heroFadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(28px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    @keyframes avatarIn {
+      from {
+        opacity: 0;
+        transform: translateX(40px) scale(0.92);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+      }
+    }
+    .heroEntrance{
+      opacity: 0;
+      animation: heroFadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+    .heroEntrance.kicker{ animation-delay: 0.05s; }
+    .heroEntrance.heroTitle{ animation-delay: 0.15s; }
+    .heroEntrance.heroRole{ animation-delay: 0.22s; }
+    .heroEntrance.heroTagline{ animation-delay: 0.32s; }
+    .heroEntrance.heroExperience{ animation-delay: 0.42s; }
+    .heroAvatarEntrance{
+      opacity: 0;
+      animation: avatarIn 0.85s cubic-bezier(0.22, 1, 0.36, 1) 0.25s forwards;
+    }
+    @media (max-width: 980px){
+      @keyframes avatarIn {
+        from { opacity: 0; transform: translateY(24px) scale(0.96); }
+        to { opacity: 1; transform: translateY(0) scale(1); }
+      }
+    }
+
+    /* Skills: 0 margin above title; other sections keep 80px (BaseLayout .sectionTitle) */
+    .sectionTitleNoTop{ margin-top: 0; }
+    .subLink{
+      color: inherit;
+      text-decoration: none;
+    }
+    .subLinkIcon{
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: 2px;
+    }
+    .subLinkIcon svg{
+      display: block;
+    }
+    .subLink:hover{
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+
+    /* Skills: simple, no card, text-only chips, natural width */
+    .skillsSection{
+      margin-top: 6px;
+    }
+    .skillsWrap{
+      display: grid;
+      grid-template-columns: 1fr 2px 1fr;
+      gap: 28px;
+      align-items: stretch;
+    }
+    .skillsColGroup{
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+    @media (max-width: 980px){
+      .skillsWrap{ grid-template-columns: 1fr; }
+      .skillsDivider{ display: none; }
+    }
+    .skillsDivider{
+      width: 2px;
+      min-height: 120px;
+      align-self: stretch;
+      background: rgba(10,10,10,0.14);
+      border-radius: 1px;
+      justify-self: center;
+    }
+    .skillsHead{
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      margin: 0 0 14px;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      color: rgba(10,10,10,0.72);
+    }
+    .skillsRow{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .skillChipText{
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(10,10,10,0.06);
+      font-weight: 500;
+      font-size: 0.9rem;
+      color: rgba(10,10,10,0.82);
+      transition: transform .16s ease, background .16s ease, color .16s ease;
+      user-select: none;
+    }
+    .skillChipText:hover{
+      background: #0a0a0a;
+      color: #fff;
+      transform: translateY(-2px);
+    }
+
+    /* Project card header */
+    .pTop{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+    .pTitle{
+      font-weight: 1000;
+      letter-spacing: -0.02em;
+      font-size: 1.16rem;
+    }
+    .pDesc{
+      margin: 12px 0 0;
+      font-size: 0.85rem;
+      font-weight: 300;
+      line-height: 1.6;
+      color: rgba(10,10,10,0.55);
+    }
+    .gh{
+      opacity: .7;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .gh:hover{ opacity: 1; }
+    .gh svg{ width: 24px; height: 24px; display:block; }
+
+    /* Project & Research: media zoom on hover */
+    .pCard .media img,
+    .pCard .media video,
+    .rCard .media img,
+    .rCard .media video{
+      transition: transform 0.4s ease;
+    }
+    .pCard .media:hover img,
+    .pCard .media:hover video,
+    .rCard .media:hover img,
+    .rCard .media:hover video{
+      transform: scale(1.06);
+    }
+
+    /* Research layout: image left large, text right */
+    .rRow{
+      display:grid;
+      grid-template-columns: 1.55fr 1fr;
+      gap: 14px;
+      align-items: stretch;
+    }
+    @media (max-width: 980px){
+      .rRow{ grid-template-columns: 1fr; }
+    }
+    .rMedia{
+      aspect-ratio: 16/6;
+      border-radius: 16px;
+    }
+    .rBody{
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+    }
+    .rTop{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 12px;
+    }
+    .rTitle{
+      font-weight: 1000;
+      letter-spacing: -0.02em;
+      line-height: 1.25;
+      font-size: 1.06rem;
+    }
+    .rMeta{
+      margin-top: 8px;
+      color: rgba(10,10,10,0.62);
+      font-weight: 900;
+    }
+    .rDesc, .rDescList{
+      margin-top: 10px;
+      font-size: 0.85rem;
+      font-weight: 300;
+      line-height: 1.6;
+      color: rgba(10,10,10,0.55);
+    }
+    .rDescList{
+      list-style: disc;
+      padding-left: 1.25rem;
+      margin-bottom: 0;
+    }
+    .rDescList li{
+      margin-bottom: 0.35em;
+    }
+    .rDescList li:last-child{
+      margin-bottom: 0;
+    }
+    .rGitHubNote{
+      margin-top: 10px;
+      font-size: 0.75rem;
+      font-weight: 300;
+      color: rgba(10,10,10,0.5);
+      line-height: 1.4;
+    }
+	/* Stretched link makes whole card clickable without nesting <a> */
+	.pCard, .rCard { position: relative; }
+
+	.stretched{
+	position: absolute;
+	inset: 0;
+	border-radius: inherit;
+	z-index: 1;
+	}
+
+	/* Card content must sit above stretched link */
+	.pTop, .media, .pDesc, .pillRow,
+	.rRow{
+	position: relative;
+	z-index: 2;
+	}
+
+	/* GitHub button stays clickable */
+	.gh{
+	position: relative;
+	z-index: 3;
+	}
+
+    /* Connect: same-length items, white-to-black hover (same as skills) */
+    .connectGrid{
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 8px;
+      position: relative;
+      z-index: 2;
+    }
+    @media (max-width: 760px){
+      .connectGrid{ grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 420px){
+      .connectGrid{ grid-template-columns: 1fr; }
+    }
+    .connectItem{
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      border-radius: 999px;
+      background: rgba(10,10,10,0.06);
+      text-decoration: none;
+      color: inherit;
+      transition: transform .16s ease, background .16s ease, color .16s ease;
+      min-width: 0;
+      position: relative;
+      z-index: 1;
+      cursor: pointer;
+    }
+    .connectItemButton{
+      border: none;
+      font: inherit;
+      width: 100%;
+      text-align: left;
+    }
+    .connectItem:hover{
+      background: #0a0a0a;
+      color: #fff;
+      transform: translateY(-2px);
+    }
+    .connectItem:hover .connectIcon img{
+      filter: invert(1);
+    }
+    .connectItem:hover .connectIconDoc svg{
+      color: #fff;
+      stroke: #fff;
+    }
+    .connectIcon{
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .connectIcon img{
+      width: 20px;
+      height: 20px;
+      display: block;
+      filter: grayscale(0.3);
+    }
+    .connectIconDoc svg{ color: rgba(10,10,10,0.65); }
+    .connectText{
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      min-width: 0;
+    }
+    .connectLabel{
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: rgba(10,10,10,0.9);
+    }
+    .connectItem:hover .connectLabel{ color: #fff; }
+    .connectDetail{
+      font-size: 0.8rem;
+      color: rgba(10,10,10,0.55);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .connectItem:hover .connectDetail{ color: rgba(255,255,255,0.85); }
+
+  </style>
+</BaseLayout>
