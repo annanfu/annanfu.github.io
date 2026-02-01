@@ -199,9 +199,11 @@ const GITHUB_SVG = `
           </div>
         </a>
       ) : (
-        <div class={"media " + (p.fit === "contain" ? "contain" : "")}>
-          <img src={p.image} alt={p.title + " thumbnail"} loading="lazy" />
-        </div>
+        <a class="pThumbLink" href={p.github} target="_blank" rel="noreferrer" aria-label={`GitHub: ${p.title}`}>
+          <div class={"media " + (p.fit === "contain" ? "contain" : "")}>
+            <img src={p.image} alt={p.title + " thumbnail"} loading="lazy" />
+          </div>
+        </a>
       )}
 
       <p class="pDesc">{p.desc}</p>
@@ -224,9 +226,11 @@ const GITHUB_SVG = `
       {/* No detail page for research */}
 
       <div class="rRow">
-        <div class="media contain rMedia">
-          <img src={r.image} alt={r.title + " diagram"} loading="lazy" />
-        </div>
+        <a class="rThumbLink" href={r.github} target="_blank" rel="noreferrer" aria-label={`GitHub: ${r.title}`}>
+          <div class="media contain rMedia">
+            <img src={r.image} alt={r.title + " diagram"} loading="lazy" />
+          </div>
+        </a>
 
         <div class="rBody">
           <div class="rTop">
@@ -690,6 +694,13 @@ const GITHUB_SVG = `
 
 	/* Whole thumbnail links to detail page (projects with video) */
 	.pThumbLink{
+	position: relative;
+	z-index: 3;
+	display: block;
+	text-decoration: none;
+	color: inherit;
+	}
+	.rThumbLink{
 	position: relative;
 	z-index: 3;
 	display: block;

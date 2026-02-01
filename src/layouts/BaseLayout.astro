@@ -1,5 +1,6 @@
 ---
 const { title = "Portfolio" } = Astro.props;
+const basePath = (import.meta.env.BASE_URL || "/").replace(/\/$/, "") || "/";
 ---
 
 <html lang="en">
@@ -89,8 +90,9 @@ const { title = "Portfolio" } = Astro.props;
       }
       section{ scroll-margin-top: 96px; }
 
-      /* section headings */
+      /* section headings — scroll target so title stays visible below fixed bar */
       .sectionTitle{
+        scroll-margin-top: 96px;
         margin: 80px 0 20px;
         font-size: 35px;
         font-weight: 1000;
@@ -238,14 +240,14 @@ const { title = "Portfolio" } = Astro.props;
   <body>
     <header class="topbar">
       <div class="topbarInner">
-        <a class="brand" href="/">Annan Fu</a>
+        <a class="brand" href={basePath}>Annan Fu</a>
 
         <nav class="navlinks">
-          <a href="#about">About</a>
-          <a href="#skills">Skills</a>
-          <a href="#projects">Projects</a>
-          <a href="#research">Research</a>
-          <a href="#connect">Connect</a>
+          <a href={`${basePath}#about`}>About</a>
+          <a href={`${basePath}#skills`}>Skills</a>
+          <a href={`${basePath}#projects`}>Projects</a>
+          <a href={`${basePath}#research`}>Research</a>
+          <a href={`${basePath}#connect`}>Connect</a>
         </nav>
       </div>
     </header>
