@@ -66,6 +66,22 @@ const projects = [
     fit: "contain",
     github: "https://github.com/CS6650-Distributed-Systems/album-store-plus",
   },
+  {
+    title: "Stock Tracker",
+    desc: "A data-driven app for tracking and visualizing US stock performance. It facilitates decision-making by providing stock data tracking with both investor-tailored overview, and market overview for stock comparisons.",
+    link: "/projects/stocktracker",
+    tags: ["Python", "Pandas", "Altair"],
+    video: "/assets/stocktracker.mp4",
+    poster: "/assets/stocktracker-thumb.png",
+    github: "https://github.com/annanfu/stocktracker",
+  },
+  {
+    title: "SafeConnect Database Management System",
+    desc: "A MySQL-backed database system connecting help-seekers with volunteers with 19-table relational schema for user profiles, incident tracking, and resource matching.",
+    tags: ["MySQL", "SQL"],
+    image: "/assets/safeconnect.png",
+    github: "https://github.com/annanfu/anti_violence_connect_app",
+  },
 ];
 
 const research = [
@@ -169,56 +185,73 @@ const GITHUB_SVG = `
 
   <!-- PROJECTS -->
   <h2 class="sectionTitle" id="projects">Selected Projects</h2>
-  <p class="sub">Selected personal projects. <a href="https://github.com/annanfu/" target="_blank" rel="noreferrer" class="subLink">More projects on GitHub <span class="subLinkIcon" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span></a></p>
+  <p class="sub">Selected personal/teamwork projects. <a href="https://github.com/annanfu/" target="_blank" rel="noreferrer" class="subLink">More projects on GitHub <span class="subLinkIcon" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span></a></p>
 
 <section class="grid3">
-  {projects.map((p) => (
+  {projects.slice(0, 3).map((p) => (
     <article class="card lift reveal pCard" style="display:block; padding: 14px;">
-      {/* Whole card clickable only when project has a detail page (video) */}
       {p.video && <a class="stretched" href={p.link} aria-label={p.title}></a>}
-
       <div class="pTop">
         <div class="pTitle">{p.title}</div>
         <a class="gh" href={p.github} target="_blank" rel="noreferrer" aria-label={`GitHub: ${p.title}`}>
           <span set:html={GITHUB_SVG} />
         </a>
       </div>
-
       {p.video ? (
-        <a class="pThumbLink" href={p.link} aria-label={`View ${p.title}`}>
+        <a class="pThumbLink pThumbTrigger" href={p.link} aria-label={`View ${p.title}`} data-media-type="video" data-src={p.video} data-poster={p.poster || ""} data-link={p.link} data-title={p.title}>
           <div class="media">
-            <video
-              src={p.video}
-              poster={p.poster}
-              autoplay
-              muted
-              loop
-              playsinline
-              preload="metadata"
-            />
+            <video src={p.video} poster={p.poster} autoplay muted loop playsinline preload="metadata" />
           </div>
         </a>
       ) : (
-        <a class="pThumbLink" href={p.github} target="_blank" rel="noreferrer" aria-label={`GitHub: ${p.title}`}>
+        <a class="pThumbLink pThumbTrigger" href="#" aria-label={`View ${p.title}`} data-media-type="image" data-src={p.image} data-title={p.title}>
           <div class={"media " + (p.fit === "contain" ? "contain" : "")}>
             <img src={p.image} alt={p.title + " thumbnail"} loading="lazy" />
           </div>
         </a>
       )}
-
       <p class="pDesc">{p.desc}</p>
-
       <div class="pillRow" style="margin-top: 12px;">
         {p.tags.map(t => <span class="pill">{t}</span>)}
       </div>
     </article>
   ))}
+  <div class="grid3Row2">
+    {projects.slice(3, 5).map((p) => (
+    <article class="card lift reveal pCard" style="display:block; padding: 14px;">
+      {p.video && <a class="stretched" href={p.link} aria-label={p.title}></a>}
+      <div class="pTop">
+        <div class="pTitle">{p.title}</div>
+        <a class="gh" href={p.github} target="_blank" rel="noreferrer" aria-label={`GitHub: ${p.title}`}>
+          <span set:html={GITHUB_SVG} />
+        </a>
+      </div>
+      {p.video ? (
+        <a class="pThumbLink pThumbTrigger" href={p.link} aria-label={`View ${p.title}`} data-media-type="video" data-src={p.video} data-poster={p.poster || ""} data-link={p.link} data-title={p.title}>
+          <div class="media">
+            <video src={p.video} poster={p.poster} autoplay muted loop playsinline preload="metadata" />
+          </div>
+        </a>
+      ) : (
+        <a class="pThumbLink pThumbTrigger" href="#" aria-label={`View ${p.title}`} data-media-type="image" data-src={p.image} data-title={p.title}>
+          <div class={"media " + (p.fit === "contain" ? "contain" : "")}>
+            <img src={p.image} alt={p.title + " thumbnail"} loading="lazy" />
+          </div>
+        </a>
+      )}
+      <p class="pDesc">{p.desc}</p>
+      <div class="pillRow" style="margin-top: 12px;">
+        {p.tags.map(t => <span class="pill">{t}</span>)}
+      </div>
+    </article>
+    ))}
+  </div>
 </section>
 
 
   <!-- RESEARCH -->
   <h2 class="sectionTitle" id="research">Research</h2>
-  <p class="sub">Open-source projects.</p>
+  <p class="sub">Open-source projects with end-to-end pipelines.</p>
 
 <section style="display:grid; gap: 16px;">
   {research.map((r) => (
@@ -226,7 +259,7 @@ const GITHUB_SVG = `
       {/* No detail page for research */}
 
       <div class="rRow">
-        <a class="rThumbLink" href={r.github} target="_blank" rel="noreferrer" aria-label={`GitHub: ${r.title}`}>
+        <a class="rThumbLink rThumbTrigger" href="#" aria-label={`View ${r.title}`} data-media-type="image" data-src={r.image} data-title={r.title}>
           <div class="media contain rMedia">
             <img src={r.image} alt={r.title + " diagram"} loading="lazy" />
           </div>
@@ -286,6 +319,79 @@ const GITHUB_SVG = `
     </a>
   </div>
 
+  <!-- Project lightbox: click thumb to show video/image overlay -->
+  <div id="projectLightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Project preview" hidden>
+    <div class="lightboxBackdrop" id="projectLightboxBackdrop"></div>
+    <div class="lightboxInner">
+      <button type="button" class="lightboxClose" id="projectLightboxClose" aria-label="Close">×</button>
+      <div class="lightboxContent" id="projectLightboxContent"></div>
+      <a class="lightboxFullPage" id="projectLightboxFullPage" href="#" style="display: none;">View full page</a>
+    </div>
+  </div>
+
+  <!-- project lightbox -->
+  <script is:inline>
+    document.addEventListener('DOMContentLoaded', () => {
+      const lb = document.getElementById('projectLightbox');
+      const lbContent = document.getElementById('projectLightboxContent');
+      const lbClose = document.getElementById('projectLightboxClose');
+      const lbBackdrop = document.getElementById('projectLightboxBackdrop');
+      const lbFullPage = document.getElementById('projectLightboxFullPage');
+      let lbVideo = null;
+
+      function closeLightbox() {
+        if (!lb) return;
+        lb.hidden = true;
+        document.body.style.overflow = "";
+        if (lbVideo) { lbVideo.pause(); lbVideo = null; }
+      }
+
+      function openLightbox(el) {
+        if (!lb || !lbContent) return;
+        const type = el.dataset.mediaType;
+        const src = el.dataset.src;
+        const poster = el.dataset.poster || "";
+        const link = el.dataset.link || "";
+        const title = el.dataset.title || "";
+        lbContent.innerHTML = "";
+        if (type === "video") {
+          lbVideo = document.createElement("video");
+          lbVideo.controls = true;
+          lbVideo.playsInline = true;
+          lbVideo.src = src;
+          lbVideo.poster = poster || undefined;
+          lbVideo.style.width = "100%";
+          lbVideo.style.maxHeight = "80vh";
+          lbContent.appendChild(lbVideo);
+          if (link) {
+            lbFullPage.href = link;
+            lbFullPage.style.display = "inline-block";
+          } else lbFullPage.style.display = "none";
+        } else {
+          const img = document.createElement("img");
+          img.src = src;
+          img.alt = title;
+          img.style.maxWidth = "100%";
+          img.style.maxHeight = "80vh";
+          img.style.objectFit = "contain";
+          lbContent.appendChild(img);
+          lbFullPage.style.display = "none";
+        }
+        lb.hidden = false;
+        document.body.style.overflow = "hidden";
+      }
+
+      document.querySelectorAll(".pThumbTrigger, .rThumbTrigger").forEach((trigger) => {
+        trigger.addEventListener("click", (e) => {
+          e.preventDefault();
+          openLightbox(trigger);
+        });
+      });
+      if (lbClose) lbClose.addEventListener("click", closeLightbox);
+      if (lbBackdrop) lbBackdrop.addEventListener("click", closeLightbox);
+      document.addEventListener("keydown", (e) => { if (e.key === "Escape" && lb && !lb.hidden) closeLightbox(); });
+    });
+  </script>
   <!-- copy email -->
   <script is:inline>
     document.addEventListener('DOMContentLoaded', () => {
@@ -513,6 +619,19 @@ const GITHUB_SVG = `
       text-underline-offset: 4px;
     }
 
+    /* Second row: two projects centered */
+    .grid3Row2{
+      grid-column: 1 / -1;
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .grid3Row2 .pCard{
+      flex: 1 1 280px;
+      max-width: 380px;
+    }
+
     /* Skills: simple, no card, text-only chips, natural width */
     .skillsSection{
       margin-top: 6px;
@@ -574,7 +693,7 @@ const GITHUB_SVG = `
     /* Project card header */
     .pTop{
       display:flex;
-      align-items:center;
+      align-items:flex-start;
       justify-content:space-between;
       gap: 12px;
       margin-bottom: 10px;
@@ -796,6 +915,74 @@ const GITHUB_SVG = `
       text-overflow: ellipsis;
     }
     .connectItem:hover .connectDetail{ color: rgba(255,255,255,0.85); }
+
+    /* Project lightbox overlay */
+    .lightbox{
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      box-sizing: border-box;
+    }
+    .lightbox[hidden]{ display: none !important; }
+    .lightboxBackdrop{
+      position: absolute;
+      inset: 0;
+      background: rgba(10,10,10,0.7);
+      cursor: pointer;
+    }
+    .lightboxInner{
+      position: relative;
+      z-index: 1;
+      background: #fff;
+      border-radius: 16px;
+      padding: 16px;
+      max-width: 90vw;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: 0 24px 80px rgba(10,10,10,0.25);
+    }
+    .lightboxClose{
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      width: 36px;
+      height: 36px;
+      border: none;
+      background: rgba(10,10,10,0.08);
+      border-radius: 50%;
+      font-size: 24px;
+      line-height: 1;
+      cursor: pointer;
+      color: #0a0a0a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+    }
+    .lightboxClose:hover{ background: rgba(10,10,10,0.15); }
+    .lightboxContent{
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .lightboxContent video,
+    .lightboxContent img{
+      border-radius: 8px;
+    }
+    .lightboxFullPage{
+      margin-top: 12px;
+      font-size: 0.9rem;
+      color: rgba(10,10,10,0.7);
+      text-decoration: none;
+    }
+    .lightboxFullPage:hover{ text-decoration: underline; }
 
   </style>
 </BaseLayout>
