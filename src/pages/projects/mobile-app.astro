@@ -1,0 +1,53 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const title = "Mobile App – Grocery Price Comparison";
+const github = "https://github.com/YOUR_GITHUB_USERNAME/YOUR_REPO";
+const demoVideo = "/assets/mobile-demo.mp4";
+---
+
+<BaseLayout title={title}>
+  <section class="card">
+    <h1>{title}</h1>
+    <p class="muted">
+      A cross-platform mobile app that helps users compare grocery prices across stores and products.
+    </p>
+
+    <div class="pillrow">
+      <span class="pill">React Native</span>
+      <span class="pill">JavaScript</span>
+      <span class="pill">Firebase</span>
+    </div>
+
+    <div style="margin-top: 1rem; display:flex; gap: 0.75rem; flex-wrap: wrap;">
+      <a class="btn" href={github} target="_blank" rel="noreferrer">GitHub Repo</a>
+    </div>
+  </section>
+
+  <div class="grid2" style="margin-top: 1rem;">
+    <section class="card">
+      <h2>Demo</h2>
+      <div class="media">
+        <video controls playsinline src={demoVideo}></video>
+      </div>
+      <p class="muted" style="margin-top: 0.75rem;">
+        Tip: if the video doesn’t load, confirm the file path is <code>public/assets/mobile-demo.mp4</code>.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>What I built</h2>
+      <ul>
+        <li>Implemented the mobile client across 20+ screens with searchable product browsing and comparisons.</li>
+        <li>Designed data flow for price ingestion and user-facing comparison views.</li>
+        <li>Built reusable UI components and navigation patterns for scalability.</li>
+      </ul>
+
+      <h2>Highlights</h2>
+      <ul>
+        <li>Clear user journey: search → compare → save/favorite.</li>
+        <li>Designed for fast iteration and maintainability.</li>
+      </ul>
+    </section>
+  </div>
+</BaseLayout>
