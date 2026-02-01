@@ -493,6 +493,11 @@ const GITHUB_SVG = `
       .heroRight{ justify-content:flex-start; }
       .avatar{ width: 220px; height: 280px; }
     }
+    @media (max-width: 768px){
+      .hero{ padding-top: 12px; min-height: auto; }
+      .heroTitle{ font-size: clamp(2.4rem, 10vw, 3.6rem); }
+      .heroRole{ font-size: clamp(1.15rem, 4vw, 1.5rem); }
+    }
     .kicker{
       font-size: 13px;
       font-weight: 950;
@@ -983,6 +988,14 @@ const GITHUB_SVG = `
       text-decoration: none;
     }
     .lightboxFullPage:hover{ text-decoration: underline; }
+
+    /* mobile-only: lightbox, second row cards */
+    @media (max-width: 768px){
+      .lightbox{ padding: 12px; }
+      .lightboxInner{ padding: 12px; max-width: 96vw; }
+      .lightboxClose{ width: 32px; height: 32px; font-size: 20px; top: 6px; right: 8px; }
+      .grid3Row2 .pCard{ flex: 1 1 100%; max-width: 100%; }
+    }
 
   </style>
 </BaseLayout>

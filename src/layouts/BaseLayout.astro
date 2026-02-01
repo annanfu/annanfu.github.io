@@ -90,6 +90,18 @@ const basePath = (import.meta.env.BASE_URL || "/").replace(/\/$/, "") || "/";
       }
       section{ scroll-margin-top: 96px; }
 
+      /* mobile: prevent banner from covering name, compact bar */
+      @media (max-width: 768px){
+        .topbarInner{ padding: 10px 14px; gap: 10px; }
+        .brand{ font-size: 0.9rem; }
+        .navlinks{ gap: 12px; }
+        .navlinks a{ font-size: 0.85rem; padding: 4px 2px; }
+        main{ padding-top: 116px; padding-left: 14px; padding-right: 14px; }
+        section{ scroll-margin-top: 116px; }
+        .sectionTitle{ scroll-margin-top: 116px; margin-top: 48px; }
+        .sub{ margin-bottom: 14px; }
+      }
+
       /* section headings — scroll target so title stays visible below fixed bar */
       .sectionTitle{
         scroll-margin-top: 96px;
