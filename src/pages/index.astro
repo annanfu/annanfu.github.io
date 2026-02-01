@@ -174,29 +174,30 @@ const GITHUB_SVG = `
 <section class="grid3">
   {projects.map((p) => (
     <article class="card lift reveal pCard" style="display:block; padding: 14px;">
-      {/* Whole card is clickable; no nested <a> */}
-      <a class="stretched" href={p.link} aria-label={p.title}></a>
+      {/* Whole card clickable only when project has a detail page (video) */}
+      {p.video && <a class="stretched" href={p.link} aria-label={p.title}></a>}
 
       <div class="pTop">
         <div class="pTitle">{p.title}</div>
-
-        <a class="gh" href={p.github} target="_blank" rel="noreferrer" aria-label="GitHub (placeholder)">
+        <a class="gh" href={p.github} target="_blank" rel="noreferrer" aria-label={`GitHub: ${p.title}`}>
           <span set:html={GITHUB_SVG} />
         </a>
       </div>
 
       {p.video ? (
-        <div class="media">
-          <video
-            src={p.video}
-            poster={p.poster}
-            autoplay
-            muted
-            loop
-            playsinline
-            preload="metadata"
-          />
-        </div>
+        <a class="pThumbLink" href={p.link} aria-label={`View ${p.title}`}>
+          <div class="media">
+            <video
+              src={p.video}
+              poster={p.poster}
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="metadata"
+            />
+          </div>
+        </a>
       ) : (
         <div class={"media " + (p.fit === "contain" ? "contain" : "")}>
           <img src={p.image} alt={p.title + " thumbnail"} loading="lazy" />
@@ -220,7 +221,7 @@ const GITHUB_SVG = `
 <section style="display:grid; gap: 16px;">
   {research.map((r) => (
     <article class="card lift reveal rCard" style="display:block; padding: 14px;">
-      <a class="stretched" href={r.link} aria-label={r.title}></a>
+      {/* No detail page for research */}
 
       <div class="rRow">
         <div class="media contain rMedia">
@@ -687,7 +688,15 @@ const GITHUB_SVG = `
 	z-index: 2;
 	}
 
-	/* GitHub button stays clickable */
+	/* Whole thumbnail links to detail page (projects with video) */
+	.pThumbLink{
+	position: relative;
+	z-index: 3;
+	display: block;
+	text-decoration: none;
+	color: inherit;
+	}
+	/* GitHub icon on research cards */
 	.gh{
 	position: relative;
 	z-index: 3;
